@@ -20,9 +20,9 @@ public class DataSourceProvider {
         if(singleDataSource == null){
             singleDataSource = new BasicDataSource();
 //            singleDataSource.setInitialSize(10);
-            singleDataSource.setUrl("jdbc:mysql://bs4ckht6nxggx2mbd15p-mysql.services.clever-cloud.com:3306/bs4ckht6nxggx2mbd15p");
-            singleDataSource.setUsername("uvupcwy9cupjwtwa");
-            singleDataSource.setPassword("y9UogOKlcncjy9f8gRn6");
+            singleDataSource.setUrl("");
+            singleDataSource.setUsername("");
+            singleDataSource.setPassword("");
         }
         return singleDataSource;
     }
