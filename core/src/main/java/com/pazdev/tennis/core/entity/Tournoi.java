@@ -1,5 +1,7 @@
 package com.pazdev.tennis.core.entity;
 
+import javax.persistence.*;
+
 /**
  * Class Tournoi
  *
@@ -7,8 +9,12 @@ package com.pazdev.tennis.core.entity;
  * @version 1.0
  * @date 06/11/2021
  */
+@Entity
+@Table(name = "TOURNOI")
 public class Tournoi {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
     private String code;

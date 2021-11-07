@@ -1,7 +1,10 @@
 package com.pazdev.tennis.core.repository;
 
 import com.pazdev.tennis.core.DataSourceProvider;
+import com.pazdev.tennis.core.HibernateUtil;
 import com.pazdev.tennis.core.entity.Tournoi;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -18,38 +21,17 @@ import java.util.List;
 public class TournoiRepositoryImpl {
 
     public void create(Tournoi tournoi) {
-        Connection conn = null;
-        try {
-            DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-            conn = dataSource.getConnection();
-
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO TOURNOI (NOM,CODE) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, tournoi.getNom());
-            preparedStatement.setString(2, tournoi.getCode());
-
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-            if(resultSet.next()){
-                tournoi.setId(resultSet.getLong(1));
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            session.persist(tournoi);
+            transaction.commit();
+            System.out.println("Tournoi ajouté");
+        } catch (Exception e) {
+            if(transaction != null){
+                transaction.rollback();
             }
-            System.out.println("Tournoi créé");
-        } catch (SQLException e) {
             e.printStackTrace();
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException el) {
-                el.printStackTrace();
-            }
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -87,70 +69,20 @@ public class TournoiRepositoryImpl {
     }
 
     public void delete(Long id) {
-        Connection conn = null;
-        try {
-            DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-            conn = dataSource.getConnection();
-
-            PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM TOURNOI WHERE ID=?");
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-
-            System.out.println("Tournoi supprimé");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException el) {
-                el.printStackTrace();
-            }
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        Tournoi tournoi = new Tournoi();
+        tournoi.setId(id);
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.delete(tournoi);
+        System.out.println("Tournoi supprimé");
     }
 
     public Tournoi getById(Long id) {
-        Connection conn = null;
         Tournoi tournoi = null;
-        try {
-            DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-            conn = dataSource.getConnection();
-
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT NOM, CODE FROM TOURNOI WHERE ID=?");
-            preparedStatement.setLong(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if(resultSet.next()){
-                tournoi = new Tournoi();
-                tournoi.setId(id);
-                tournoi.setNom(resultSet.getString("NOM"));
-                tournoi.setCode(resultSet.getString("CODE"));
-            }
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tournoi = session.get(Tournoi.class, id);
             System.out.println("Tournoi lu");
-        } catch (SQLException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException el) {
-                el.printStackTrace();
-            }
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return tournoi;
     }

@@ -29,13 +29,13 @@ public class TournoiController {
     }
 
     public void creerTournoi() {
-        Tournoi tournoi = new Tournoi();
         System.out.print("\nQuel nouveau tournoi voulez vous créer ?" +
                 "\nNom du tournoi : ");
         String nom = scanner.nextLine();
-        tournoi.setNom(nom);
         System.out.print("\nCode du Tournoi : ");
         String code = scanner.nextLine();
+        Tournoi tournoi = new Tournoi();
+        tournoi.setNom(nom);
         tournoi.setCode(code);
         tournoiService.createTournoi(tournoi);
         System.out.println("Le tournoi " + tournoi.getNom() + " au code " + tournoi.getCode() + " a bien été créé." +

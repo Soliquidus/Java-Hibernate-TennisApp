@@ -1,4 +1,8 @@
 package com.pazdev.tennis.core.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Class Match
  *
