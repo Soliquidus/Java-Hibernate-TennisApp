@@ -5,8 +5,8 @@
 <hibernate-configuration>
     <session-factory>
         <!-- JDBC Database connection settings -->
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property><!-- ou son nouveau nom com.mysql.cj.jdbc.Driver -->
-        <property name="connection.url">YourServer</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">YourServerUrl</property>
         <property name="connection.username">YourUsername</property>
         <property name="connection.password">YourPassword</property>
 
@@ -37,6 +37,9 @@
         <!-- Enities to map -->
         <mapping class="com.pazdev.tennis.core.entity.Joueur"/>
         <mapping class="com.pazdev.tennis.core.entity.Tournoi"/>
+        <mapping class="com.pazdev.tennis.core.entity.Epreuve"/>
+        <mapping class="com.pazdev.tennis.core.entity.Score"/>
+        <mapping class="com.pazdev.tennis.core.entity.Match"/>
 
     </session-factory>
 

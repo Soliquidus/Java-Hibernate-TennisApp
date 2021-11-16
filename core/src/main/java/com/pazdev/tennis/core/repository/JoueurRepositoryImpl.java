@@ -4,10 +4,12 @@ import com.pazdev.tennis.core.DataSourceProvider;
 import com.pazdev.tennis.core.HibernateUtil;
 import com.pazdev.tennis.core.entity.Joueur;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,43 +28,8 @@ public class JoueurRepositoryImpl {
         System.out.println("Joueur créé");
     }
 
-    public void update(Joueur joueur) {
-        Connection conn = null;
-        try {
-            DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-            conn = dataSource.getConnection();
-
-            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE JOUEUR SET NOM=?,PRENOM=?,SEXE=? WHERE ID=?");
-            preparedStatement.setString(1, joueur.getNom());
-            preparedStatement.setString(2, joueur.getPrenom());
-            preparedStatement.setString(3, joueur.getSexe().toString());
-            preparedStatement.setLong(4, joueur.getId());
-
-            preparedStatement.executeUpdate();
-
-            System.out.println("Joueur modifié");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException el) {
-                el.printStackTrace();
-            }
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void delete(Long id) {
-        Joueur joueur = new Joueur();
-        joueur.setId(id);
+        Joueur joueur = getById(id);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.delete(joueur);
         System.out.println("Joueur supprimé");

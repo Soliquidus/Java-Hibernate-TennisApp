@@ -1,7 +1,9 @@
 package com.pazdev.tennis.core.repository;
 
 import com.pazdev.tennis.core.DataSourceProvider;
+import com.pazdev.tennis.core.HibernateUtil;
 import com.pazdev.tennis.core.entity.Score;
+import org.hibernate.Session;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -65,5 +67,12 @@ public class ScoreRepositoryImpl {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Score getById(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Score score = session.get(Score.class, id);
+        System.out.println("Score lu");
+        return score;
     }
 }

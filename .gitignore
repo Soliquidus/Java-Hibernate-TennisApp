@@ -1,1 +1,4 @@
 /core/src/main/java/com/pazdev/tennis/core/DataSourceProvider.java
+/core/src/main/resources/hibernate.cfg.xml
+/console-ui/console-ui.iml
+/core/core.iml

@@ -1,7 +1,6 @@
 package com.pazdev.tennis.core.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Class Match
@@ -10,12 +9,24 @@ import javax.persistence.Table;
  * @version 1.0
  * @date 06/11/2021
  */
+
+@Entity
+@Table(name = "MATCH_TENNIS")
 public class Match {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_VAINQUEUR")
     private Joueur vainqueur;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_FINALISTE")
     private Joueur finaliste;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_EPREUVE")
     private Epreuve epreuve;
+    @Transient
     private Score score;
 
     public Long getId() {

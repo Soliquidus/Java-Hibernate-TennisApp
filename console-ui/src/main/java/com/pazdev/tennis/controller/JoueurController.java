@@ -55,4 +55,21 @@ public class JoueurController {
         joueurService.renommerNomJoueur(identifiant, nom);
     }
 
+    public void modifierSexeJoueur() {
+        System.out.println("Quel est l'identifiant de joueur dont vous voulez modifier le sexe ?");
+        Long identifiant = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("Quel nouveau sexe voulez vous donner ?");
+        Character sexe = scanner.nextLine().charAt(0);
+        joueurService.changerSexeJoueur(identifiant, sexe);
+    }
+
+    public void supprimerJoueur() {
+        System.out.println("Quel est l'identifiant du joueur que vous voulez supprimer ?");
+        Long identifiant = scanner.nextLong();
+        joueurService.deleteJoueur(identifiant);
+    }
+
+
+
 }

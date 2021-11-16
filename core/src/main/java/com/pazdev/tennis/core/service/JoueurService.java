@@ -35,10 +35,25 @@ public class JoueurService {
 
     public void renommerNomJoueur(Long id, String nouveauNom) {
         Transaction transaction = null;
+        Joueur joueur = getJoueur(id);
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            Joueur joueur = joueurRepository.getById(id);
             joueur.setNom(nouveauNom);
+            session.merge(joueur);
+            transaction.commit();
+        } catch (Throwable t) {
+            if (transaction != null) transaction.rollback();
+            t.printStackTrace();
+        }
+    }
+
+    public void changerSexeJoueur(Long id, Character nouveauSexe) {
+        Transaction transaction = null;
+        Joueur joueur = getJoueur(id);
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            joueur.setSexe(nouveauSexe);
+            session.merge(joueur);
             transaction.commit();
         } catch (Throwable t) {
             if (transaction != null) transaction.rollback();
@@ -58,5 +73,17 @@ public class JoueurService {
             t.printStackTrace();
         }
         return joueur;
+    }
+
+    public void deleteJoueur(Long id){
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            joueurRepository.delete(id);
+            transaction.commit();
+        } catch (Throwable t) {
+            if (transaction != null) transaction.rollback();
+            t.printStackTrace();
+        }
     }
 }

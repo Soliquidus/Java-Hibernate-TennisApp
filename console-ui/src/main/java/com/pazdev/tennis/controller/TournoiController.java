@@ -1,6 +1,6 @@
 package com.pazdev.tennis.controller;
 
-import com.pazdev.tennis.core.entity.Tournoi;
+import com.pazdev.tennis.core.dto.TournoiDto;
 import com.pazdev.tennis.core.service.TournoiService;
 
 import java.util.Scanner;
@@ -24,7 +24,7 @@ public class TournoiController {
     public void afficheDetailTournoi() {
         System.out.println("Quel est l'identifiant du tournoi dont vous voulez afficher les informations ?");
         Long identifiant = scanner.nextLong();
-        Tournoi tournoi = tournoiService.getTournoi(identifiant);
+        TournoiDto tournoi = tournoiService.getTournoi(identifiant);
         System.out.println("Le tournoi sélectionné s'appelle " + tournoi.getNom() + " avec le code " + tournoi.getCode());
     }
 
@@ -34,11 +34,17 @@ public class TournoiController {
         String nom = scanner.nextLine();
         System.out.print("\nCode du Tournoi : ");
         String code = scanner.nextLine();
-        Tournoi tournoi = new Tournoi();
+        TournoiDto tournoi = new TournoiDto();
         tournoi.setNom(nom);
         tournoi.setCode(code);
         tournoiService.createTournoi(tournoi);
         System.out.println("Le tournoi " + tournoi.getNom() + " au code " + tournoi.getCode() + " a bien été créé." +
                 "\n Identifiant : " + tournoi.getId());
+    }
+
+    public void supprimerTournoi(){
+        System.out.println("Quel est l'identifiant du tournoi que vous voulez supprimer ?");
+        Long identifiant = scanner.nextLong();
+        tournoiService.deleteTournoi(identifiant);
     }
 }

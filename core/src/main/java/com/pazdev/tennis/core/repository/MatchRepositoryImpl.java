@@ -1,7 +1,9 @@
 package com.pazdev.tennis.core.repository;
 
 import com.pazdev.tennis.core.DataSourceProvider;
+import com.pazdev.tennis.core.HibernateUtil;
 import com.pazdev.tennis.core.entity.Match;
+import org.hibernate.Session;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -50,5 +52,11 @@ public class MatchRepositoryImpl {
                 e.printStackTrace();
             }
         }
+    }
+    public Match getById(Long id){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Match match = session.get(Match.class, id);
+        System.out.println("Match lu");
+        return match;
     }
 }
