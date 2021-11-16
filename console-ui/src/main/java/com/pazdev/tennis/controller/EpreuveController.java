@@ -2,6 +2,7 @@ package com.pazdev.tennis.controller;
 
 import com.pazdev.tennis.core.dto.EpreuveFullDto;
 import com.pazdev.tennis.core.dto.EpreuveLightDto;
+import com.pazdev.tennis.core.dto.JoueurDto;
 import com.pazdev.tennis.core.service.EpreuveService;
 
 import java.util.Scanner;
@@ -22,14 +23,18 @@ public class EpreuveController {
         this.epreuveService = new EpreuveService();
     }
 
-    public void afficheDerniereEpreuve() {
+    public void afficherDetailsEpreuve() {
         System.out.println("Quel est l'identifiant de l'épreuve dont vous voulez afficher les informations ?");
         Long identifiant = scanner.nextLong();
-        EpreuveFullDto epreuve = epreuveService.getEpreuveAvecTournoi(identifiant);
+        EpreuveFullDto epreuve = epreuveService.getEpreuveDetaillee(identifiant);
         System.out.println("Le nom du tournoi est " + epreuve.getTournoiDto().getNom());
+        System.out.println("Participants : ");
+        for(JoueurDto joueurDto : epreuve.getParticipants()){
+            System.out.println(joueurDto.getPrenom() + " " + joueurDto.getNom());
+        }
     }
 
-    public void afficheRolandGarros() {
+    public void afficherRolandGarros() {
         System.out.println("Quel est l'identifiant de l'épreuve dont vous voulez afficher les informations ?");
         Long identifiant = scanner.nextLong();
         EpreuveLightDto epreuve = epreuveService.getEpreuveSansTournoi(identifiant);

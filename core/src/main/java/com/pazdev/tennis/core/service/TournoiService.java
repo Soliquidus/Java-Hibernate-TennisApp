@@ -26,10 +26,12 @@ public class TournoiService {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
+
             Tournoi tournoi = new Tournoi();
             tournoi.setId(tournoiDto.getId());
             tournoi.setNom(tournoiDto.getNom());
             tournoi.setCode(tournoiDto.getCode());
+
             tournoiRepository.create(tournoi);
             transaction.commit();
         } catch (Exception e) {
@@ -42,13 +44,15 @@ public class TournoiService {
         Transaction transaction = null;
         Tournoi tournoi;
         TournoiDto tournoiDto = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
             tournoi = tournoiRepository.getById(id);
+
             tournoiDto = new TournoiDto();
             tournoiDto.setId(tournoi.getId());
             tournoiDto.setNom(tournoi.getNom());
             tournoiDto.setCode(tournoi.getCode());
+
             transaction.commit();
         } catch (Throwable e) {
             if(transaction != null) transaction.rollback();

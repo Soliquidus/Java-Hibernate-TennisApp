@@ -1,5 +1,7 @@
 package com.pazdev.tennis.core.dto;
 
+import java.util.Set;
+
 /**
  * Class Epreuve
  *
@@ -13,6 +15,7 @@ public class EpreuveFullDto {
     private Short annee;
     private TournoiDto tournoi;
     private Character type;
+    private Set<JoueurDto> participants;
 
     public Long getId() {
         return id;
@@ -48,5 +51,21 @@ public class EpreuveFullDto {
     public EpreuveFullDto setType(Character type) {
         this.type = type;
         return this;
+    }
+
+    public TournoiDto getTournoi() {
+        return tournoi;
+    }
+
+    public void setTournoi(TournoiDto tournoi) {
+        this.tournoi = tournoi;
+    }
+
+    public Set<JoueurDto> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<JoueurDto> participants) {
+        this.participants = participants;
     }
 }

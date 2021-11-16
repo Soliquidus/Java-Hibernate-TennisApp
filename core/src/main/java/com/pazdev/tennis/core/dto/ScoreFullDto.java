@@ -1,6 +1,4 @@
-package com.pazdev.tennis.core.entity;
-
-import javax.persistence.*;
+package com.pazdev.tennis.core.dto;
 
 /**
  * Class Score
@@ -10,31 +8,21 @@ import javax.persistence.*;
  * @date 06/11/2021
  */
 
-@Entity
-@Table(name = "SCORE_VAINQUEUR")
-public class Score {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ScoreFullDto {
+
     private Long id;
-    @Column(name = "SET_1")
     private Byte set1;
-    @Column(name = "SET_2")
     private Byte set2;
-    @Column(name = "SET_3")
     private Byte set3;
-    @Column(name = "SET_4")
     private Byte set4;
-    @Column(name = "SET_5")
     private Byte set5;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "ID_MATCH")
-    private Match match;
+    private MatchDto match;
 
     public Long getId() {
         return id;
     }
 
-    public Score setId(Long id) {
+    public ScoreFullDto setId(Long id) {
         this.id = id;
         return this;
     }
@@ -43,7 +31,7 @@ public class Score {
         return set1;
     }
 
-    public Score setSet1(Byte set1) {
+    public ScoreFullDto setSet1(Byte set1) {
         this.set1 = set1;
         return this;
     }
@@ -52,7 +40,7 @@ public class Score {
         return set2;
     }
 
-    public Score setSet2(Byte set2) {
+    public ScoreFullDto setSet2(Byte set2) {
         this.set2 = set2;
         return this;
     }
@@ -61,7 +49,7 @@ public class Score {
         return set3;
     }
 
-    public Score setSet3(Byte set3) {
+    public ScoreFullDto setSet3(Byte set3) {
         this.set3 = set3;
         return this;
     }
@@ -70,7 +58,7 @@ public class Score {
         return set4;
     }
 
-    public Score setSet4(Byte set4) {
+    public ScoreFullDto setSet4(Byte set4) {
         this.set4 = set4;
         return this;
     }
@@ -79,16 +67,16 @@ public class Score {
         return set5;
     }
 
-    public Score setSet5(Byte set5) {
+    public ScoreFullDto setSet5(Byte set5) {
         this.set5 = set5;
         return this;
     }
 
-    public Match getMatch() {
+    public MatchDto getMatchDto() {
         return match;
     }
 
-    public Score setMatch(Match match) {
+    public ScoreFullDto setMatchDto(MatchDto match) {
         this.match = match;
         return this;
     }

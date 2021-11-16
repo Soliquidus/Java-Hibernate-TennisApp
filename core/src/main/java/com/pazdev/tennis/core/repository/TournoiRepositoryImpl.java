@@ -66,7 +66,7 @@ public class TournoiRepositoryImpl {
     }
 
     public Tournoi getById(Long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Tournoi tournoi = session.get(Tournoi.class, id);
         System.out.println("Tournoi lu");
         return tournoi;

@@ -1,12 +1,8 @@
 package com.pazdev.tennis.core.repository;
 
-import com.pazdev.tennis.core.DataSourceProvider;
 import com.pazdev.tennis.core.HibernateUtil;
 import com.pazdev.tennis.core.entity.Match;
 import org.hibernate.Session;
-
-import javax.sql.DataSource;
-import java.sql.*;
 
 /**
  * Class JoueurRepositoryImpl
@@ -18,45 +14,21 @@ import java.sql.*;
 public class MatchRepositoryImpl {
 
     public void create(Match match) {
-        Connection conn = null;
-        try {
-            DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-            conn = dataSource.getConnection();
-
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO MATCH_TENNIS (ID_EPREUVE,ID_VAINQUEUR,ID_FINALISTE) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setLong(1, match.getEpreuve().getId());
-            preparedStatement.setLong(2, match.getVainqueur().getId());
-            preparedStatement.setLong(3, match.getFinaliste().getId());
-
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-            if(resultSet.next()){
-                match.setId(resultSet.getLong(1));
-            }
-            System.out.println("Match créé");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException el) {
-                el.printStackTrace();
-            }
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.persist(match);
+        System.out.println("Match ajouté");
     }
     public Match getById(Long id){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Match match = session.get(Match.class, id);
         System.out.println("Match lu");
         return match;
+    }
+
+    public void delete(Long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Match match = session.get(Match.class, id);
+        session.delete(match);
+        System.out.println("Match supprimé");
     }
 }

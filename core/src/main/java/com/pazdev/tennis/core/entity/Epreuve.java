@@ -1,6 +1,7 @@
 package com.pazdev.tennis.core.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Class Epreuve
@@ -23,6 +24,11 @@ public class Epreuve {
     private Tournoi tournoi;
     @Column(name = "TYPE_EPREUVE")
     private Character type;
+    @ManyToMany
+    @JoinTable(name = "PARTICIPANTS",
+            joinColumns = @JoinColumn(name = "ID_EPREUVE"),
+            inverseJoinColumns = @JoinColumn(name = "ID_JOUEUR"))
+    private Set<Joueur> participants;
 
     public Long getId() {
         return id;
@@ -58,5 +64,13 @@ public class Epreuve {
     public Epreuve setType(Character type) {
         this.type = type;
         return this;
+    }
+
+    public Set<Joueur> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<Joueur> participants) {
+        this.participants = participants;
     }
 }

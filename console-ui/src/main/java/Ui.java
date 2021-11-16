@@ -16,8 +16,12 @@ public class Ui {
 //        tournoiController.creerTournoi();
 //        tournoiController.supprimerTournoi();
 //        scoreController.afficheDetailScore();
-//        epreuveController.afficheDerniereEpreuve();
-//        epreuveController.afficheRolandGarros();
-        matchController.afficheDetailMatch();
+//        epreuveController.afficherDetailsEpreuve();
+//        epreuveController.afficherRolandGarros();
+//        matchController.afficherDetailsMatch();
+//        matchController.tapisVert();
+//        matchController.ajouterMatch();
+//        matchController.supprimerMatch();
+        scoreController.supprimerScore();
     }
 }

@@ -1,6 +1,6 @@
 package com.pazdev.tennis.controller;
 
-import com.pazdev.tennis.core.entity.Score;
+import com.pazdev.tennis.core.dto.ScoreFullDto;
 import com.pazdev.tennis.core.service.ScoreService;
 
 import java.util.Scanner;
@@ -24,7 +24,7 @@ public class ScoreController {
     public void afficheDetailScore() {
         System.out.println("Quel est l'identifiant du score dont vous voulez afficher les informations ?");
         Long identifiant = scanner.nextLong();
-        Score score = scoreService.getScore(identifiant);
+        ScoreFullDto score = scoreService.getScore(identifiant);
         System.out.println("Les sets du score sont : ");
         System.out.println(score.getSet1());
         System.out.println(score.getSet2());
@@ -37,5 +37,14 @@ public class ScoreController {
         if (score.getSet5() != null) {
             System.out.println(score.getSet5());
         }
+        System.out.println("Il s'agit du tournoi " + score.getMatchDto().getEpreuve().getTournoiDto().getNom() + " " +
+                "et l'épreuve s'est déroulée en " + score.getMatchDto().getEpreuve().getAnnee() + ", il s'agissait d'une " +
+                "épreuve " + (score.getMatchDto().getEpreuve().getType() == 'H' ? "Homme" : "Femme"));
+    }
+
+    public void supprimerScore(){
+        System.out.println("Quel est l'identifiant du score que vous voulez supprimer ?");
+        Long identifiant = scanner.nextLong();
+        scoreService.deleteScore(identifiant);
     }
 }
